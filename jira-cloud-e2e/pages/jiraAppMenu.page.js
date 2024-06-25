@@ -1,14 +1,16 @@
-exports.JiraAppMenuPage =  class JiraAppMenuPage {
+exports.JiraAppMenuPage = class JiraAppMenuPage {
   constructor(page) {
     this.page = page;
-    this.filtersButton = page.getByRole('button', { name: 'Filters' });
-    this.viewAllIssuesButton = page.getByRole('link', {
-      name: 'View all issues',
-    });
+    this.filtersButton = page
+      .getByLabel('Primary')
+      .getByRole('button', { name: 'Filters' });
+    this.viewAllIssuesLink = page
+      .getByRole('Filters')
+      .getByRole('link', { name: 'View all issues' });
   }
 
-  async openAllIssuesFilter() {
+  async openAllIssuesPage() {
     await this.filtersButton.click();
-    await this.viewAllIssuesButton.click();
+    await this.viewAllIssuesLink.click();
   }
-}
+};

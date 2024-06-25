@@ -16,16 +16,20 @@ module.exports = defineConfig({
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: 2,
+  retries: 0,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: 'list',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    viewport: { width: 1920, height: 1080 },
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: baseUrl,
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    /* Record trace for each test. When test run passes, remove the recorded trace. */
+    trace: 'on',
+
+    actionTimeout: 10000,
   },
 
   projects: [
@@ -38,7 +42,7 @@ module.exports = defineConfig({
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/user.json',
       },
-      dependencies: ['setup'],
+      //dependencies: ['setup'],
     },
   ],
 });
