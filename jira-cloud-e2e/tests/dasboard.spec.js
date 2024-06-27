@@ -19,9 +19,7 @@ test.describe('Dashboard', async () => {
   });
 
   [
-    { gadgetName: 'Activity Stream', 
-      gadgetItemLocator: '.jira-activity-item' 
-    },
+    { gadgetName: 'Activity Stream', gadgetItemLocator: '.jira-activity-item' },
     {
       gadgetName: 'List multiple projects',
       gadgetItemLocator: '.project-item',
@@ -31,6 +29,11 @@ test.describe('Dashboard', async () => {
       const dashboardPage = new DashboardPage(page);
       await dashboardPage.addGadgetByName(gadgetName);
       await expect(page.locator(gadgetItemLocator)).toHaveCount(10);
+      await expect
+        .poll(async () => await page.locator(gadgetItemLocator).count(), {
+          timeout: 30000,
+        })
+        .toBeGreaterThan(0);
       await dashboardPage.deleteGadget();
       await expect(page.getByText('This dashboard is empty')).toBeVisible();
     });
