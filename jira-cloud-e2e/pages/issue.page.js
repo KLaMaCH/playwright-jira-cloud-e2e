@@ -23,6 +23,19 @@ exports.IssuePage = class IssuePage {
     this.actionsButton = page.getByTestId(
       'issue-meatball-menu.ui.dropdown-trigger.button'
     );
+    this.statusButton = page.getByTestId(
+      'issue-field-status.ui.status-view.status-button.status-button'
+    );
+    this.transitionButton = page.getByTestId(
+      'issue-field-status.ui.status-view.transition'
+    );
+    this.transitionLozenge = page.locator(
+      '[data-testid^="issue.fields.status.common.ui.status-lozenge"]'
+    );
+    this.assigneeButton = page.getByTestId(
+      'issue.views.field.user.assignee.name.wrapper'
+    );
+    this.firstAssigneeInList = page.locator('#react-select-assignee-option-0');
   }
 
   async openCurrentIssue() {
@@ -36,5 +49,19 @@ exports.IssuePage = class IssuePage {
     await this.descriptionHeading.click();
     await this.descriptionTextArea.fill(description);
     await this.descriptionSaveButton.click();
+  }
+
+  async changeStatus() {
+    await this.statusButton.click();
+    const newStatus = this.transitionLozenge.first().innerText();
+    await this.transitionButton.first().click();
+    return newStatus;
+  }
+
+  async changeAssignee() {
+    await this.assigneeButton.click();
+    const newAssignee = this.firstAssigneeInList.innerText();
+    await this.firstAssigneeInList.click();
+    return newAssignee;
   }
 };

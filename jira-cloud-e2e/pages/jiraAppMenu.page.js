@@ -5,7 +5,7 @@ exports.JiraAppMenuPage = class JiraAppMenuPage {
       .getByLabel('Primary')
       .getByRole('button', { name: 'Filters' });
     this.viewAllIssuesLink = page
-      .getByRole('Filters')
+      .getByLabel('Filters')
       .getByRole('link', { name: 'View all issues' });
   }
 
